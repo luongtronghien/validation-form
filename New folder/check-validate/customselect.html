@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>Sprite</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, minimal-ui">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <!--[if lt IE 8]><link rel="stylesheet" href="css/ie.css"><![endif]-->
+    <script src="modernizr-v2.8.3.js"></script>
+  </head>
+  <body id="template">
+    <h1>jqBootstrapValidation</h1>
+    <form class="form-horizontal" novalidate>
+      <div class="control-group">
+        <label class="control-label">Required</label>
+        <div class="controls">
+          <input type="text" name="some_field" required  data-validation-required-message="dadasd dassadasd"/>
+          <p class="help-block"></p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Number</label>
+        <div class="controls">
+          <input type="text" data-validation-number-message="Please input number"/>
+          <p class="help-block"></p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Email address</label>
+        <div class="controls">
+          <input type="text" data-validation-email-message="dadsadsadsadsadsd"/>
+          <p class="help-block"></p>
+        </div>
+      </div>
+       <div class="control-group">
+        <label class="control-label">Max</label>
+        <div class="controls">
+          <input type="text" max="42" name="some_field" data-validation-max-message="ewqewqeweqw"/>
+          <p class="help-block">Must be lower than 43</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Min</label>
+        <div class="controls">
+          <input type="number" min="42" name="some_field" data-validation-min-message ="dsadad"/>
+          <p class="help-block">Must be higher than 41</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Max length</label>
+        <div class="controls">
+          <input type="text" maxlength="10" name="some_field" data-validation-maxlength-message="fsdfsdf"/>
+          <p class="help-block"></p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Min length</label>
+        <div class="controls">
+          <input type="text" minlength="10" name="some_field" data-validation-minlength-message="dasdasad"/>
+          <p class="help-block"></p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Pattern</label>
+        <div class="controls">
+          <input type="text" 
+            pattern="a.*z" 
+            data-validation-pattern-message="Must start with 'a' and end with 'z'" 
+            name="some_field"
+          />
+          <p class="help-block">Must start with 'a' and end with 'z'</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Type something</label>
+        <div class="controls">
+          <input type="text" name="some_field-match" />
+          <p class="help-block"></p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Type it again</label>
+        <div class="controls">
+          <input 
+            type="text" 
+            data-validation-match-match="some_field-match" 
+            name="some_other_field"
+            data-validation-match-message="dsadasd"
+          />
+          <p class="help-block"></p>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Test Validation</button>
+      </div>
+    </form>
+    <form class="form-horizontal" novalidate>
+      <div class="control-group">
+        <label class="control-label">Required</label>
+        <div class="controls">
+          <input type="text" name="some_field" required  data-validation-required-message="dadasd dassadasd"/>
+          <p class="help-block"></p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Number</label>
+        <div class="controls">
+          <input type="text" data-validation-number-message="Please input number"/>
+          <p class="help-block"></p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Email address</label>
+        <div class="controls">
+          <input type="text" data-validation-email-message="dadsadsadsadsadsd"/>
+          <p class="help-block"></p>
+        </div>
+      </div>
+       <div class="control-group">
+        <label class="control-label">Max</label>
+        <div class="controls">
+          <input type="text" max="42" name="some_field" data-validation-max-message="ewqewqeweqw"/>
+          <p class="help-block">Must be lower than 43</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Min</label>
+        <div class="controls">
+          <input type="number" min="42" name="some_field" data-validation-min-message ="dsadad"/>
+          <p class="help-block">Must be higher than 41</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Max length</label>
+        <div class="controls">
+          <input type="text" maxlength="10" name="some_field" data-validation-maxlength-message="fsdfsdf"/>
+          <p class="help-block"></p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Min length</label>
+        <div class="controls">
+          <input type="text" minlength="10" name="some_field" data-validation-minlength-message="dasdasad"/>
+          <p class="help-block"></p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Pattern</label>
+        <div class="controls">
+          <input type="text" 
+            pattern="a.*z" 
+            data-validation-pattern-message="Must start with 'a' and end with 'z'" 
+            name="some_field"
+          />
+          <p class="help-block">Must start with 'a' and end with 'z'</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Type something</label>
+        <div class="controls">
+          <input type="text" name="some_field-match" />
+          <p class="help-block"></p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Type it again</label>
+        <div class="controls">
+          <input 
+            type="text" 
+            data-validation-match-match="some_field-match" 
+            name="some_other_field"
+            data-validation-match-message="dsadasd"
+          />
+          <p class="help-block"></p>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Test Validation</button>
+      </div>
+    </form>
+    <ul class="1" data-test="true" data-mgs-text ="kaka">
+      <li>
+        <ul class="2">
+          <li>
+            <span>d</span>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul class="3">
+          <li>
+            <span>e</span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="1">
+      <li>
+        <ul class="2">
+          <li>
+            <span>d</span>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <ul class="3">
+          <li>
+            <span>e</span>
+          </li>
+        </ul>
+      </li>
+    </ul> 
+    <script src="jquery-v2.1.1.js"></script>
+    <script src="jqBootstrapValidation-1.3.7.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

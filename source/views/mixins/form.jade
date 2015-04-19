@@ -1,0 +1,7 @@
+mixin form-group(Obj, attrInput)
+  - attrInput = (attrInput) ? attrInput : {}
+  .form-group&attributes(attributes)
+    - if(Obj.label){
+      label(for="full-name")!=Obj.label
+    - }
+    input(type=Obj.type, name=Obj.name, placeholder=Obj.placeholder, value=Obj.value)&attributes(attrInput)

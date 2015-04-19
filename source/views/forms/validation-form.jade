@@ -1,0 +1,5 @@
+form.form-1#form-1(name="form-1", method="post", action="#", data-validationform="true")
+  fieldset
+    legend Personal information:
+    +form-group({label: 'Name <strong><sup>*</sup></strong>', type: 'text', name: 'full-name', placeholder: 'Input name', value: ''}, {id:'full-name', class: 'full-name'})
+    +form-group({type: 'submit', value: 'submit'}, {class: 'btn-submit'})
