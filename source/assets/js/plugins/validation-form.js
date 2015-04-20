@@ -27,10 +27,19 @@
     input.next('.' + that.options.alertError).remove();
   };
 
-  var checkRequired = function(that, input) {
-      var message = input.data('validation-required-message');
+  var requiredVL = function(input){
+    if(!input.val()){
+      return false;
+    }
+    else {
+      return true;
+    }
+  };
 
-    if(!input.val() && !input.next('.' + that.options.alertError).length){
+  var showErrorRequired = function(that, input) {
+    var message = input.data('validation-required-message');
+
+    if(!input.next('.' + that.options.alertError).length){
       if(message){
         createAlertError(that, input, message);
       }
@@ -38,10 +47,9 @@
         createAlertError(that, input, msg.required);
       }
     }
-    else{
-      removeAlertError(that, input);
-    }
   };
+
+  
 
   function Plugin(element, options) {
     this.element = $(element);
@@ -53,23 +61,32 @@
     init: function() {
       var that = this,
         form = that.element,
-        inputVL =  form.find('input,textarea,select').not("[type=submit]"),
-        required = [];
+        inputVL =  form.find('input,textarea,select').not("[type=submit]");
 
-      form.on('submit.' + pluginName, function(e){
-        e.preventDefault();
-        form.data('isValidated', true);
+      form.data('isValidated', true);
+      
+      form.off('submit.' ).on('submit', function(e){
         $.each(inputVL, function(){
-          var inputVl = $(this);
-          if(inputVl.data('validation-required')){
-            if(!checkRequired(that, inputVl)) {
+          var self = $(this);
+          self.off('change').on('change', function(){
+            if(!requiredVL(self)){
+              showErrorRequired(that, self);
+              form.data('isValidated', false);
+            }else{
+              removeAlertError(that, self);
+              form.data('isValidated', true);
+              form.trigger('submit');
+            }
+          });
+          if(self.data('validation-required')){
+            if(!requiredVL(self)){
+              showErrorRequired(that, self);
               form.data('isValidated', false);
             }
           }
+          
         });
-
-
-        if(form.data('isValidated')) {
+        if(form.data('isValidated')){
           return true;
         }
         return false;
