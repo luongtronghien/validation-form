@@ -16,7 +16,8 @@
   var privateVar = null;
 
   var msg = {
-    'required': 'Please input value'
+    'required': 'Please input value',
+    'email': 'Please input email'
   };
 
   var createAlertError = function(that, input, message){
@@ -28,7 +29,7 @@
   };
 
   var requiredVL = function(input){
-    if(!input.val()){
+    if(!$.trim(input.val())){
       return false;
     }
     else {
@@ -36,20 +37,48 @@
     }
   };
 
-  var showErrorRequired = function(that, input) {
-    var message = input.data('validation-required-message');
+  var emailVL = function(input){
+    var reg = $.trim(input.val());
+    if(reg){
+      if(!/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i.test(reg)){
+        return false;
+      }
+      else {
+        return true;
+      }
+    }
+    else{
+      return true;
+    }
+  };
+
+  var showErrorRequired = function(that, input, rule) {
+    var message = input.data('validation-' + rule + '-message');
+
+    if(!input.next('.' + that.options.alertError).length){
+      if(message){
+        createAlertError(that, input, message);
+      }
+      else {
+        createAlertError(that, input, msg[rule]);
+      }
+    }
+  };
+
+  var showErrorEmail = function(that, input) {
+    var message = input.data('validation-email-message');
 
     if(!input.next('.' + that.options.alertError).length){
       if(message){
         createAlertError(that, input, message);
       }
       else{
-        createAlertError(that, input, msg.required);
+        createAlertError(that, input, msg.email);
       }
     }
   };
 
-  
+
 
   function Plugin(element, options) {
     this.element = $(element);
@@ -65,27 +94,46 @@
 
       form.data('isValidated', true);
       
-      form.off('submit.' ).on('submit', function(e){
+      form.off('submit' ).on('submit', function(e){
         $.each(inputVL, function(){
           var self = $(this);
-          self.off('change').on('change', function(){
-            if(!requiredVL(self)){
-              showErrorRequired(that, self);
-              form.data('isValidated', false);
-            }else{
-              removeAlertError(that, self);
-              form.data('isValidated', true);
-              form.trigger('submit');
-            }
-          });
+
           if(self.data('validation-required')){
+            self.off('change').on('change', function(){
+              if(!requiredVL(self)){
+                showErrorRequired(that, self, 'required');
+                form.data('isValidated', false);
+              } else{
+                removeAlertError(that, self);
+                form.data('isValidated', true);
+                form.trigger('submit');
+              }
+            });
+
             if(!requiredVL(self)){
-              showErrorRequired(that, self);
+              showErrorRequired(that, self, 'required');
               form.data('isValidated', false);
             }
           }
-          
+
+          if(self.data('validation-email')){
+            // self.off('change').on('change', function(){
+            //   if(!emailVL(self)){
+            //     showErrorEmail(that, self);
+            //     form.data('isValidated', false);
+            //   } else{
+            //     removeAlertError(that, self);
+            //     form.data('isValidated', true);
+            //     form.trigger('submit');
+            //   }
+            // }
+            // if(!emailVL(self)){
+            //   showErrorEmail(that, self);
+            //   form.data('isValidated', false);
+            // }
+          }
         });
+
         if(form.data('isValidated')){
           return true;
         }
