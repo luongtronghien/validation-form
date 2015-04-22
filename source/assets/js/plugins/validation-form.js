@@ -54,9 +54,9 @@
   };
 
   var emailVL = function(input){
-    var reg = $.trim(input.val());
-    if(reg){
-      if(!/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i.test(reg)){
+    var value = input.val();
+    if(value){
+      if(!/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i.test(value)){
         return false;
       }
       else {
@@ -68,7 +68,20 @@
     }
   };
 
-
+  var phoneVL = function(input){
+    var value = input.val();
+    if(value){
+      if(!/^[0-9]{10,11}$/i.test(value)){
+        return false;
+      }
+      else {
+        return true;
+      }
+    }
+    else {
+      return true;
+    }
+  };
 
   function Plugin(element, options) {
     this.element = $(element);
@@ -101,6 +114,7 @@
 
           validationElement(requiredVL(input), 'required');
           validationElement(emailVL(input), 'email');
+          validationElement(phoneVL(input), 'phone');
         });
         if(!validationFalse.length){
           return true;

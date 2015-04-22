@@ -5,5 +5,6 @@ form.form-1#form-1(name="form-1", method="post", action="#", data-validationform
     +form-group({label: 'Require', type: 'text', name: 'job', placeholder: 'Input job', value: ''}, {id:'job', class: 'job', 'data-validation-required': "true"})
     +form-group({label: 'Email', type: 'text', name: 'input-email', placeholder: 'Input email', value: ''}, {'data-validation-email': "true"})
     +form-group({label: 'Email', type: 'text', name: 'input-email', placeholder: 'Input email', value: ''}, {'data-validation-email': "true", 'data-validation-email-message': "Format incorrect"})
+    +form-group({label: 'Phone', type: 'text', name: 'input-phone', placeholder: 'Phone', value: ''}, {'data-validation-phone': "true", 'data-validation-phone-message': "Phone format incorrect"})
     +form-group({label: 'Require, Email', type: 'text', name: 'input-email', placeholder: 'Input email', value: ''}, {'data-validation-email': "true", 'data-validation-email-message': "Format incorrect", 'data-validation-required': "true"})
     +form-group({type: 'submit', value: 'submit'}, {class: 'btn-submit'})
