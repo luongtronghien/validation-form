@@ -20,30 +20,27 @@
     'email': 'Please input email'
   };
 
-  var getError = function(that, input, message){
+  var insertError = function(that, input, message){
     input.after('<div class="' + that.options.alertError + '">' + message + '</div>');
   };
 
-  var addMessageError = function(that, form, input, rulesText, rules) {
+  var addMessageError = function(that, input, rulesText) {
     var message = input.data('validation-' + rulesText + '-message');
 
-    if(!rules){
-      if(!input.next('.' + that.options.alertError).length){
-        if(message){
-          getError(that, input, message);
-        }
-        else {
-          getError(that, input, msg[rulesText]);
-        }
+    if(!input.next('.' + that.options.alertError).length){
+      if(message){
+        insertError(that, input, message);
       }
-      form.data('isValidated', rules);
+      else {
+        insertError(that, input, msg[rulesText]);
+      }
     }
   };
 
-  var removeMessageError = function(that, form, input, rulestext, rules){
-    if(rules){
-      input.next('.' + that.options.alertError).remove();
-      form.data('isValidated', rules);
+  var removeMessageError = function(that, input){
+    var err = input.next('.' + that.options.alertError);
+    if(err){
+      err.remove();
     }
   };
 
@@ -56,16 +53,6 @@
     }
   };
 
-  var validationEL = function(that, form, input, rulestext, rules){
-    // input.off('change.input').on('change.input', function(){
-    //   addMessageError(that, form, input, rulestext, rules);
-    //   removeMessageError(that, form, input, rulestext, rules);
-    //   form.trigger('submit.validationForm');
-    // });
-    removeMessageError(that, form, input, rulestext, rules);
-    addMessageError(that, form, input, rulestext, rules);
-
-  };
   var emailVL = function(input){
     var reg = $.trim(input.val());
     if(reg){
@@ -76,7 +63,7 @@
         return true;
       }
     }
-    else{
+    else {
       return true;
     }
   };
@@ -93,35 +80,34 @@
     init: function() {
       var that = this,
         form = that.element,
-        inputVL =  form.find('input, textarea, select').not("[type=submit]");
-
-      form.data('isValidated', true);
+        inputVL =  form.find('input, textarea, select').not("[type=submit]"),
+        validationFalse = [];
 
       form.off('submit.validationForm').on('submit.validationForm', function(){
+        validationFalse = [];
         $.each(inputVL, function(){
-          var self = $(this);
+          var input = $(this);
+          var validationElement = function(validation, rules){
+            if(input.data('validation-' + rules)){
+              if(validation){
+                removeMessageError(that, input);
+              }
+              else {
+                addMessageError(that, input, rules);
+                validationFalse.push('false');
+              }
+            }
+          };
 
-          if(self.data('validation-required')){
-            validationEL(that, form, self, 'required', requiredVL(self));
-          }
-
-          if(self.data('validation-email')){
-            validationEL(that, form, self, 'email', emailVL(self));            
-          }
-
-          if(self.data('validation-required') && self.data('validation-email')){
-
-          }
+          validationElement(requiredVL(input), 'required');
+          validationElement(emailVL(input), 'email');
         });
-
-        if(form.data('isValidated')){
+        if(!validationFalse.length){
           return true;
         }
-        return false;
-      });
-
-      form.off('change.el').on('change.el', inputVL, function(){
-        // form.trigger('submit.validationForm');
+        else {
+          return false;
+        }
       });
     },
     publicMethod: function(params) {
