@@ -13,7 +13,7 @@
  */
 ;(function($, window, undefined) {
   var pluginName = 'validationForm';
-  var privateVar = null;
+  var isValidationSuccess = true;
 
   var msg = {
     'required': 'Please input value',
@@ -21,7 +21,7 @@
   };
 
   var insertError = function(that, input, message){
-    input.after('<div class="' + that.options.alertError + '">' + message + '</div>');
+    input.after('<div class="' + that.options.alertError +'">' + message + '</div>');
   };
 
   var addMessageError = function(that, input, rulesText) {
@@ -37,10 +37,17 @@
     }
   };
 
-  var removeMessageError = function(that, input){
+  var removeMessageElement = function(that, input){
     var err = input.next('.' + that.options.alertError);
     if(err){
       err.remove();
+    }
+  };
+
+  var removeMessageForm = function(that){
+    var errClass = that.element.find('.' + that.options.alertError);
+    if(errClass.length){
+      errClass.remove();
     }
   };
 
@@ -83,6 +90,52 @@
     }
   };
 
+  var validationElement = function(that, input) {
+
+    var rules = that.options.rules;
+
+    function validate(rule, input) {
+      if (rules[rule] && !rules[rule](input)) {
+        addMessageError(that, input, rule);
+        isValidationSuccess = false;
+        return;
+      }
+      removeMessageElement(that, input);
+      isValidationSuccess = true;
+      return true;
+    }
+
+    for(var key in rules) {
+      if (input.data('validation-' + key) && !validate(key, input)) {
+        break;
+      }
+    }
+
+    // if(input.data('validation-email')) {
+    //   if(!emailVL(input)) {
+    //     addMessageError(that, input, 'email');
+    //     isValidationSuccess = false;
+    //     return;
+    //   }
+    //   else{
+    //     removeMessageElement(that, input);
+    //     isValidationSuccess = true;
+    //   }
+    // }
+    // if(input.data('validation-number')) {
+    //   if(!numberVL(input)) {
+    //     addMessageError(that, input, 'number');
+    //     isValidationSuccess = false;
+    //     return false;
+    //   }
+    //   else{
+    //     removeMessageElement(that, input);
+    //     isValidationSuccess = true;
+    //   }
+    // }
+
+  };
+
   function Plugin(element, options) {
     this.element = $(element);
     this.options = $.extend({}, $.fn[pluginName].defaults, options);
@@ -93,30 +146,15 @@
     init: function() {
       var that = this,
         form = that.element,
-        inputVL =  form.find('input, textarea, select').not("[type=submit]"),
-        validationFalse = [];
+        inputVL =  form.find('input, textarea, select').not("[type=submit]");
 
       form.off('submit.validationForm').on('submit.validationForm', function(){
-        validationFalse = [];
+        removeMessageForm(that);
         $.each(inputVL, function(){
-          var input = $(this);
-          var validationElement = function(validation, rules){
-            if(input.data('validation-' + rules)){
-              if(validation){
-                removeMessageError(that, input);
-              }
-              else {
-                addMessageError(that, input, rules);
-                validationFalse.push('false');
-              }
-            }
-          };
-
-          validationElement(requiredVL(input), 'required');
-          validationElement(emailVL(input), 'email');
-          validationElement(phoneVL(input), 'phone');
+          validationElement(that, $(this));
         });
-        if(!validationFalse.length){
+
+        if(isValidationSuccess) { console.log(isValidationSuccess);
           return true;
         }
         else {
@@ -147,27 +185,15 @@
 
   $.fn[pluginName].defaults = {
     formGroup: 'form-group',
-    alertError: 'alert-error'
+    alertError: 'alert-error',
+    rules: {
+      email: emailVL,
+      required: requiredVL
+    }
   };
 
   $(function() {
     $('[data-' + pluginName + ']')[pluginName]({
-      'txtPassword': {
-        'lenght': {
-          valid: 6,
-          mess: '> 6ky tu'
-        },
-        required: {
-          valid: true,
-          mess: 'this field is reuqid'
-        }
-      },
-      'txt-username': {
-        'required': {
-          valid: true,
-          mess: 'user  name is reuqied'
-        }
-      }
     });
   });
 
