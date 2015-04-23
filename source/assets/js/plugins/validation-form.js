@@ -88,7 +88,7 @@
   var numberVL = function(input){
     var value = input.val();
     if(value){
-      if(!/^[0-9]{10,11}$/i.test(value)){
+      if(!/^[-+]?[0-9]+$/.test(value)){
         return false;
       }
       else {
