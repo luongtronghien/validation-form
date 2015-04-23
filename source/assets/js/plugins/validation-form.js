@@ -13,26 +13,21 @@
  */
 ;(function($, window, undefined) {
   var pluginName = 'validationForm';
-  var isValidationSuccess = true;
-
-  var msg = {
-    'required': 'Please input value',
-    'email': 'Please input email'
-  };
+  var isFalse = [];
 
   var insertError = function(that, input, message){
     input.after('<div class="' + that.options.alertError +'">' + message + '</div>');
   };
 
-  var addMessageError = function(that, input, rulesText) {
-    var message = input.data('validation-' + rulesText + '-message');
+  var addMessageError = function(that, input, rule) {
+    var message = input.data('validation-' + rule + '-message');
 
     if(!input.next('.' + that.options.alertError).length){
       if(message){
         insertError(that, input, message);
       }
       else {
-        insertError(that, input, msg[rulesText]);
+        insertError(that, input, that.options.msg[rule]);
       }
     }
   };
@@ -90,18 +85,31 @@
     }
   };
 
-  var validationElement = function(that, input) {
+  var numberVL = function(input){
+    var value = input.val();
+    if(value){
+      if(!/^[0-9]{10,11}$/i.test(value)){
+        return false;
+      }
+      else {
+        return true;
+      }
+    }
+    else {
+      return true;
+    }
+  };
 
+  var validationElement = function(that, input) {
     var rules = that.options.rules;
 
     function validate(rule, input) {
       if (rules[rule] && !rules[rule](input)) {
         addMessageError(that, input, rule);
-        isValidationSuccess = false;
+        isFalse.push('false');
         return;
       }
       removeMessageElement(that, input);
-      isValidationSuccess = true;
       return true;
     }
 
@@ -110,30 +118,6 @@
         break;
       }
     }
-
-    // if(input.data('validation-email')) {
-    //   if(!emailVL(input)) {
-    //     addMessageError(that, input, 'email');
-    //     isValidationSuccess = false;
-    //     return;
-    //   }
-    //   else{
-    //     removeMessageElement(that, input);
-    //     isValidationSuccess = true;
-    //   }
-    // }
-    // if(input.data('validation-number')) {
-    //   if(!numberVL(input)) {
-    //     addMessageError(that, input, 'number');
-    //     isValidationSuccess = false;
-    //     return false;
-    //   }
-    //   else{
-    //     removeMessageElement(that, input);
-    //     isValidationSuccess = true;
-    //   }
-    // }
-
   };
 
   function Plugin(element, options) {
@@ -149,12 +133,14 @@
         inputVL =  form.find('input, textarea, select').not("[type=submit]");
 
       form.off('submit.validationForm').on('submit.validationForm', function(){
+        isFalse = [];
         removeMessageForm(that);
+
         $.each(inputVL, function(){
           validationElement(that, $(this));
         });
 
-        if(isValidationSuccess) { console.log(isValidationSuccess);
+        if(!isFalse.length) {
           return true;
         }
         else {
@@ -187,8 +173,16 @@
     formGroup: 'form-group',
     alertError: 'alert-error',
     rules: {
+      required: requiredVL,
       email: emailVL,
-      required: requiredVL
+      phone: phoneVL,
+      number: numberVL,
+    },
+    msg: {
+      required: 'Please input value',
+      email: 'Please input email',
+      phone: 'Please input phone',
+      number: 'Please input number',
     }
   };
 
