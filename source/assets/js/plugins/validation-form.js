@@ -14,6 +14,11 @@
 ;(function($, window, undefined) {
   var pluginName = 'validationForm';
   var isFalse = [];
+  var regExp = {
+    EMAIL: /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i,
+    PHONE: /^[0-9]{10,11}$/,
+    NUMBER: /^[-+]?[0-9]+$/
+  };
 
   var insertError = function(that, input, message){
     input.after('<div class="' + that.options.alertError +'">' + message + '</div>');
@@ -47,57 +52,50 @@
   };
 
   var requiredVL = function(input){
-    if(!$.trim(input.val())){
-      return false;
-    }
-    else {
-      return true;
-    }
+    return (input.type='checkbox') ? input.is(':checked') : $.trim(input.val());
   };
 
-  var emailVL = function(input){
-    var value = input.val();
-    if(value){
-      if(!/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i.test(value)){
-        return false;
-      }
-      else {
-        return true;
-      }
-    }
-    else {
-      return true;
-    }
+  var checkRegExp = function (regExp) {
+    return function (input) {
+      var value = input.val();
+      return !value || regExp.test(value);
+    };
   };
 
-  var phoneVL = function(input){
-    var value = input.val();
-    if(value){
-      if(!/^[0-9]{10,11}$/i.test(value)){
-        return false;
-      }
-      else {
-        return true;
-      }
-    }
-    else {
-      return true;
-    }
+  var emailVL = checkRegExp(regExp.EMAIL);
+
+  var phoneVL = checkRegExp(regExp.PHONE);
+
+  var numberVL = checkRegExp(regExp.NUMBER);
+
+  var minVL = function(input){
+    var isNumber = checkRegExp(regExp.NUMBER),
+        value = input.val();
+
+    return !value || isNumber && (value >= Number(input.data('validation-min')));
   };
 
-  var numberVL = function(input){
-    var value = input.val();
-    if(value){
-      if(!/^[-+]?[0-9]+$/.test(value)){
-        return false;
-      }
-      else {
-        return true;
-      }
-    }
-    else {
-      return true;
-    }
+  var maxVL = function(input){
+    var isNumber = checkRegExp(regExp.NUMBER),
+        value = input.val();
+
+    return !value || isNumber && (value <= Number(input.data('validation-max')));
+  };
+
+  var maxlengthVL = function(input){
+    var value = input.val(),
+        numberMax = Number(input.data('validation-maxlength'));
+    return !value || $.trim(value).length <= numberMax;
+  };
+
+  var minlengthVL = function(input){
+    var value = input.val(),
+        numberMin = Number(input.data('validation-minlength'));
+    return !value || $.trim(value).length >= numberMin;
+  };
+
+  var matchVL = function(input){
+    return input.val() === $(input.data('validation-match')).val();
   };
 
   var validationElement = function(that, input) {
@@ -170,19 +168,29 @@
   };
 
   $.fn[pluginName].defaults = {
-    formGroup: 'form-group',
     alertError: 'alert-error',
+    groupInput: 'group-validation',
     rules: {
       required: requiredVL,
       email: emailVL,
       phone: phoneVL,
       number: numberVL,
+      min: minVL,
+      max: maxVL,
+      maxlength: maxlengthVL,
+      minlength: minlengthVL,
+      match: matchVL
     },
     msg: {
       required: 'Please input value',
       email: 'Please input email',
       phone: 'Please input phone',
       number: 'Please input number',
+      min: 'Min incorrect',
+      max: 'Max incorrect',
+      maxlength: 'Max length incorrect',
+      minlength: 'Min length incorrect',
+      match: 'Not match'
     }
   };
 

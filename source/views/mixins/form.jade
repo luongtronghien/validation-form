@@ -1,7 +1,22 @@
-mixin form-group(Obj, attrInput)
+mixin form-group(Obj, attrInput, attrGroup)
   - attrInput = (attrInput) ? attrInput : {}
+  - attrGroup = (attrGroup) ? attrGroup : {}
   .form-group&attributes(attributes)
-    - if(Obj.label){
-      label(for="full-name")!=Obj.label
+    - if(Obj.group){
+        .group-validation&attributes(attrGroup)
+          label!=Obj.group.label
+          each vl, index in Obj.group.element
+            input(type=vl.type, name=vl.name, id=vl.id)&attributes(attrInput)
+    - }else{
+      - if(Obj.label && Obj.type !== 'checkbox'){
+        label(for=Obj.id)!=Obj.label
+      - }
+      - if(Obj.type === 'checkbox'){
+          - if(Obj.label){
+            label(for=Obj.id)!=Obj.label
+              input(type=Obj.type, name=Obj.name, id=Obj.id)&attributes(attrInput)
+          - }
+      - }else{
+        input(type=Obj.type, name=Obj.name, placeholder=Obj.placeholder, value=Obj.value, id=Obj.id)&attributes(attrInput)
+      - }
     - }
-    input(type=Obj.type, name=Obj.name, placeholder=Obj.placeholder, value=Obj.value)&attributes(attrInput)
