@@ -52,7 +52,14 @@
   };
 
   var requiredVL = function(input){
-    return (input.attr('type') === 'checkbox') ? input.is(':checked') : $.trim(input.val());
+    if(input.attr('type') === 'checkbox'){
+      return input.is(':checked');
+    }else if(input.is('select')){
+      return input.find('option:selected').index() !== 0;
+    }
+
+    return $.trim(input.val());
+    // return (input.attr('type') === 'checkbox') ? input.is(':checked') : (input.is('select')) ? input.find('option:selected').length : $.trim(input.val());
   };
 
   var groupVL = function(group){

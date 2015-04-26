@@ -15,5 +15,5 @@ form.form-1#form-1(name="form-1", method="post", action="#", data-validationform
     +form-group({label: 'Required checkbox', name: 'checkbox-1', type: 'checkbox', id: 'checkbox-1'}, {'data-validation-required': 'true'})
     +form-group({group: {label: 'Required checkbox group', element: [{type: 'checkbox', id: 'html-skill'}, {type: 'checkbox', id: 'css-skill'}, {type: 'checkbox', id: 'js-skill'}, {type: 'checkbox', id: 'canvas-skill'}]}}, null, {'data-validation-group-message': 'Required Group checkbox', 'data-validation-group': '#html-skill, #css-skill, #js-skill, #canvas-skill'})
     +form-group({group: {groupName: 'improve-rd', label: 'Which support would you like ZK to improve upon?', element: [{type: 'radio', id: 'bug-fixing'}, {type: 'radio', id: 'perfomance'}, {type: 'radio', id: 'styling'}, {type: 'radio', id: 'web-ide-support'}]}}, null, {'data-validation-group-message': 'Required Group radio', 'data-validation-group': 'improve-rd'})
-
+    +form-group({label: 'Required Select', id: 'select-1', select: ['Choose a value', 'HTML', 'CSS', 'JS', 'CANVAST']}, {'data-validation-required': 'true', 'data-validation-required-message': '* This field is required'})
     +form-group({type: 'submit', value: 'submit'}, {class: 'btn-submit'})

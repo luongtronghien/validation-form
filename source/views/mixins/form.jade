@@ -14,9 +14,18 @@ mixin form-group(Obj, attrInput, attrGroup)
       - if(Obj.type === 'checkbox'){
           - if(Obj.label){
             label(for=Obj.id)!=Obj.label
-              input(type=Obj.type, name=Obj.name, id=Obj.id)&attributes(attrInput)
+            input(type=Obj.type, name=Obj.name, id=Obj.id)&attributes(attrInput)
           - }
+      - }else if(Obj.select){
+          select(name=Obj.id, id=Obj.id)&attributes(attrInput)
+            each vl, index in Obj.select
+              - if(index === Obj.selectOption && index !== 0){
+                  option(value=index, selected)!=vl
+              - }else{
+                option(value=(index === 0 ? '' : index))!=vl
+              - }
       - }else{
         input(type=Obj.type, name=Obj.name, placeholder=Obj.placeholder, value=Obj.value, id=Obj.id)&attributes(attrInput)
       - }
     - }
+
