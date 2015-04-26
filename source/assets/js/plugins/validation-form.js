@@ -52,7 +52,24 @@
   };
 
   var requiredVL = function(input){
-    return (input.type='checkbox') ? input.is(':checked') : $.trim(input.val());
+    return (input.attr('type') === 'checkbox') ? input.is(':checked') : $.trim(input.val());
+  };
+
+  var groupVL = function(group){
+    var groupNeedCheck = group.data('validation-group'),
+      arrID = groupNeedCheck.split(',');
+
+    if(arrID.length < 2 && $('[name="' + arrID + '"]').is(':checked')){
+      return true;
+    }
+
+    for(var i = 0; i < arrID.length; i++){
+      if($(arrID[i]).is(':checked')){
+        return true;
+      }
+    }
+
+    return false;
   };
 
   var checkRegExp = function (regExp) {
@@ -128,7 +145,7 @@
     init: function() {
       var that = this,
         form = that.element,
-        inputVL =  form.find('input, textarea, select').not("[type=submit]");
+        inputVL =  form.find('input, textarea, select, [data-validation-group]').not("[type=submit]");
 
       form.off('submit.validationForm').on('submit.validationForm', function(){
         isFalse = [];
@@ -172,6 +189,7 @@
     groupInput: 'group-validation',
     rules: {
       required: requiredVL,
+      group: groupVL,
       email: emailVL,
       phone: phoneVL,
       number: numberVL,
@@ -183,6 +201,7 @@
     },
     msg: {
       required: 'Please input value',
+      group: 'Please checked input',
       email: 'Please input email',
       phone: 'Please input phone',
       number: 'Please input number',

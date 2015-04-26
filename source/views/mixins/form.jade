@@ -6,7 +6,7 @@ mixin form-group(Obj, attrInput, attrGroup)
         .group-validation&attributes(attrGroup)
           label!=Obj.group.label
           each vl, index in Obj.group.element
-            input(type=vl.type, name=vl.name, id=vl.id)&attributes(attrInput)
+            input(type=vl.type, name=(vl.type === 'radio') ? vl.name = Obj.group.groupName : vl.name, id=vl.id)&attributes(attrInput)
     - }else{
       - if(Obj.label && Obj.type !== 'checkbox'){
         label(for=Obj.id)!=Obj.label
