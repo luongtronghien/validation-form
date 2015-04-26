@@ -142,6 +142,25 @@
     }
   };
 
+  var loadAjaxForm = function(form){
+    var postData = form.serializeArray();
+    var formURL = form.attr("action");
+    $.ajax(
+    {
+      url : formURL,
+      type: "POST",
+      data : postData,
+      success:function(data, textStatus, jqXHR)
+      {
+          alert(1);
+      },
+      error: function(jqXHR, textStatus, errorThrown)
+      {
+          alert(2);   
+      }
+    });
+  };
+
   function Plugin(element, options) {
     this.element = $(element);
     this.options = $.extend({}, $.fn[pluginName].defaults, options);
@@ -154,7 +173,7 @@
         form = that.element,
         inputVL =  form.find('input, textarea, select, [data-validation-group]').not("[type=submit]");
 
-      form.off('submit.validationForm').on('submit.validationForm', function(){
+      form.off('submit.validationForm').on('submit.validationForm', function(e){
         isFalse = [];
         removeMessageForm(that);
 
@@ -163,7 +182,12 @@
         });
 
         if(!isFalse.length) {
-          return true;
+          if(that.options.loadAjax){
+            loadAjaxForm($(this));
+            e.preventDefault();
+          }else{
+            return true;
+          }
         }
         else {
           return false;
@@ -194,6 +218,7 @@
   $.fn[pluginName].defaults = {
     alertError: 'alert-error',
     groupInput: 'group-validation',
+    loadAjax: true,
     rules: {
       required: requiredVL,
       group: groupVL,
