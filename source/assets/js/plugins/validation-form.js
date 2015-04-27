@@ -142,22 +142,18 @@
     }
   };
 
-  var loadAjaxForm = function(that){
-    var from = $(this),
-        data = form.serializeArray(),
-        dataType = that.loadAjax.dataType,
-        type = form.attr('method'),
-        url = form.attr('action');
-
+  var ajaxFrom = function(that, form){
     $.ajax({
-      url : url,
-      type: type,
-      data : data,
-      success:function(data, textStatus, jqXHR){
-        alert(1);
+      url: form.attr('action'),
+      method: form.attr('method'),
+      beforeSend: function(){
+        
       },
-      error: function(jqXHR, textStatus, errorThrown){
+      error: function(){
         alert(2);
+      },
+      success: function(){
+        alert(3);
       }
     });
   };
@@ -183,10 +179,7 @@
         });
 
         if(!isFalse.length) {
-          if(that.options.loadAjax.init){
-            loadAjaxForm.call(form, that);
-          }
-          return true;
+          ajaxFrom(that, form);
         }
         else {
           return false;
@@ -217,10 +210,6 @@
   $.fn[pluginName].defaults = {
     alertError: 'alert-error',
     groupInput: 'group-validation',
-    loadAjax: {
-      init: true,
-      dataType: 'json'
-    },
     rules: {
       required: requiredVL,
       group: groupVL,
