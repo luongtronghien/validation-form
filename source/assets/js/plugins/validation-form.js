@@ -12,13 +12,14 @@
  *    destroy
  */
 ;(function($, window, undefined) {
-  var pluginName = 'validationForm';
-  var isFalse = [];
-  var regExp = {
-    EMAIL: /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i,
-    PHONE: /^[0-9]{10,11}$/,
-    NUMBER: /^[-+]?[0-9]+$/
-  };
+  var pluginName = 'validationForm',
+      isFalse = [],
+      doc = $(document),
+      regExp = {
+        EMAIL: /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i,
+        PHONE: /^[0-9]{10,11}$/,
+        NUMBER: /^[-+]?[0-9]+$/
+      };
 
   var insertError = function(that, input, message){
     input.after('<div class="' + that.options.alertError +'">' + message + '</div>');
@@ -142,18 +143,49 @@
     }
   };
 
+  var showLoading = function(){
+    var img = $('.loading-ajax');
+    $('body').append('<div class="overlay"><img class="loading-ajax" src="images/ajax-loader.gif"></div>');
+  };
+
+  var hiddenLoading = function(){
+    $('.overlay').remove();
+  };
+
+  var clearField = function(form){
+    form.find(':input').not(':submit').val('');
+    form.find(':checkbox').prop('checked', false);
+    form.find(':radio').prop('checked', false);
+    form.find('select').find('option:first-child').prop('selected', true);
+  };
+
+  var showErrorLoadAjax = function(form){
+    form.prepend('<div class="error-ajax">Load Ajax False!!!</div>');
+  };
+
   var ajaxFrom = function(that, form){
     $.ajax({
       url: form.attr('action'),
       method: form.attr('method'),
+      dataType: 'json',
+      data: form.serialize(),
       beforeSend: function(){
-        
+        showLoading();
+        doc.off('ajaxComplete').on('ajaxComplete', function(){
+          hiddenLoading();
+        });
+        if($.isFunction(that.options.onBeforeSendAjax)){
+          that.options.onBeforeSendAjax(form, that.options);
+        }
       },
       error: function(){
-        alert(2);
+        showErrorLoadAjax(form);
       },
       success: function(){
-        alert(3);
+        clearField(form);
+        if($.isFunction(that.options.onSuccessSendAjax)){
+          that.options.onSuccessSendAjax(form, that.options);
+        }
       }
     });
   };
@@ -179,10 +211,13 @@
         });
 
         if(!isFalse.length) {
-          ajaxFrom(that, form);
+          if(that.options.loadAjax){
+            e.preventDefault();
+            ajaxFrom(that, form);
+          }
         }
-        else {
-          return false;
+        else{
+          e.preventDefault();
         }
       });
     },
@@ -210,6 +245,7 @@
   $.fn[pluginName].defaults = {
     alertError: 'alert-error',
     groupInput: 'group-validation',
+    loadAjax: true,
     rules: {
       required: requiredVL,
       group: groupVL,
@@ -222,6 +258,7 @@
       minlength: minlengthVL,
       match: matchVL
     },
+
     msg: {
       required: 'Please input value',
       group: 'Please checked input',
@@ -233,7 +270,9 @@
       maxlength: 'Max length incorrect',
       minlength: 'Min length incorrect',
       match: 'Not match'
-    }
+    },
+    onBeforeSendAjax: function(form, options){},
+    onSuccessSendAjax : function(form, options){}
   };
 
   $(function() {

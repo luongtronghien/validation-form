@@ -38,6 +38,7 @@ module.exports = function(grunt) {
     concat: {
       dist: {
         files: [{
+          '<%= meta.build %>ajax/jsonLoad.json': '<%= meta.assets %>ajax/*.json',
           '<%= meta.build %>js/modernizr.js': '<%= meta.assets %>js/libs/modernizr-2.7.1.js',
           '<%= meta.build %>js/libs.js': ['<%= meta.assets %>js/libs/jquery-1.11.1.js', '<%= meta.assets %>js/libs/plugins/*.js'],
           '<%= meta.build %>js/l10n.js': '<%= meta.assets %>js/l10n.js',
@@ -250,6 +251,7 @@ module.exports = function(grunt) {
       },
       dist: {
         files: [{
+          '<%= meta.build %>ajax/jsonLoad.php': '<%= meta.assets %>ajax/*.php',
           '<%= meta.build %>js/modernizr.js': '<%= meta.assets %>js/libs/modernizr-2.7.1.js',
           '<%= meta.build %>js/libs.js': ['<%= meta.assets %>js/libs/jquery-1.11.1.js', '<%= meta.assets %>js/libs/plugins/*.js'],
           '<%= meta.build %>js/l10n.js': '<%= meta.assets %>js/l10n.js',

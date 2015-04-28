@@ -1,0 +1,222 @@
+[
+  {
+    "region": "Japan",
+    "cities": [
+      {
+        "name": "Fukuoka",
+        "link": "#",
+        "src": "images/destination-1.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Komatsu",
+        "link": "#",
+        "src": "images/destination-2.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Nagoya",
+        "link": "#",
+        "src": "images/destination-3.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Osaka",
+        "link": "#",
+        "src": "images/destination-1.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Sapporo",
+        "link": "#",
+        "src": "images/destination-2.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Tokyo",
+        "link": "#",
+        "src": "images/destination-3.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Toyama",
+        "link": "#",
+        "src": "images/destination-1.jpg",
+        "longdesc": "img-desc.html"
+      }
+    ]
+  },
+  {
+    "region": "United States Of America",
+    "cities": [
+      {
+        "name": "Albuquerque",
+        "link": "#",
+        "src": "images/destination-1.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Atlanta",
+        "link": "#",
+        "src": "images/destination-2.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Austin",
+        "link": "#",
+        "src": "images/destination-3.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Baltimore",
+        "link": "#",
+        "src": "images/destination-1.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Boston",
+        "link": "#",
+        "src": "images/destination-2.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Charlotte",
+        "link": "#",
+        "src": "images/destination-3.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Chicago",
+        "link": "#",
+        "src": "images/destination-1.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Cincinnati",
+        "link": "#",
+        "src": "images/destination-2.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Cleveland",
+        "link": "#",
+        "src": "images/destination-3.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Colorado Springs",
+        "link": "#",
+        "src": "images/destination-1.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Dallas",
+        "link": "#",
+        "src": "images/destination-2.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Denver",
+        "link": "#",
+        "src": "images/destination-3.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Detroit",
+        "link": "#",
+        "src": "images/destination-1.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Fort Lauderdale",
+        "link": "#",
+        "src": "images/destination-2.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Houston",
+        "link": "#",
+        "src": "images/destination-3.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Detroit",
+        "link": "#",
+        "src": "images/destination-1.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Fort Lauderdale",
+        "link": "#",
+        "src": "images/destination-2.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Houston",
+        "link": "#",
+        "src": "images/destination-3.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Las Vegas",
+        "link": "#",
+        "src": "images/destination-1.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Los Angeles",
+        "link": "#",
+        "src": "images/destination-2.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Miami",
+        "link": "#",
+        "src": "images/destination-3.jpg",
+        "longdesc": "img-desc.html"
+      }
+    ]
+  },
+  {
+    "region": "Vietnam",
+    "cities": [
+      {
+        "name": "Hanoi",
+        "link": "#",
+        "src": "images/destination-1.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Ho chi minh city",
+        "link": "#",
+        "src": "images/destination-2.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Hue",
+        "link": "#",
+        "src": "images/destination-3.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Da Nang",
+        "link": "#",
+        "src": "images/destination-1.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Da Lat",
+        "link": "#",
+        "src": "images/destination-2.jpg",
+        "longdesc": "img-desc.html"
+      },
+      {
+        "name": "Can Tho",
+        "link": "#",
+        "src": "images/destination-3.jpg",
+        "longdesc": "img-desc.html"
+      }
+    ]
+  }
+]
+
