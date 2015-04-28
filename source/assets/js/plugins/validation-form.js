@@ -143,15 +143,6 @@
     }
   };
 
-  var showLoading = function(){
-    var img = $('.loading-ajax');
-    $('body').append('<div class="overlay"><img class="loading-ajax" src="images/ajax-loader.gif"></div>');
-  };
-
-  var hiddenLoading = function(){
-    $('.overlay').remove();
-  };
-
   var clearField = function(form){
     form.find(':input').not(':submit').val('');
     form.find(':checkbox').prop('checked', false);
@@ -159,27 +150,26 @@
     form.find('select').find('option:first-child').prop('selected', true);
   };
 
-  var showErrorLoadAjax = function(form){
-    form.prepend('<div class="error-ajax">Load Ajax False!!!</div>');
-  };
-
   var ajaxFrom = function(that, form){
     $.ajax({
       url: form.attr('action'),
+      cache: false,
       method: form.attr('method'),
       dataType: 'json',
       data: form.serialize(),
       beforeSend: function(){
-        showLoading();
-        doc.off('ajaxComplete').on('ajaxComplete', function(){
-          hiddenLoading();
-        });
+        $('body').append('<img class="loading-ajax" src="images/ajax-loader.gif">');
         if($.isFunction(that.options.onBeforeSendAjax)){
           that.options.onBeforeSendAjax(form, that.options);
         }
       },
+      complete: function(){
+        $('.loading-ajax').remove();
+      },
       error: function(){
-        showErrorLoadAjax(form);
+        if(!$('.error-ajax').length){
+          form.prepend('<div class="error-ajax">Load Ajax False!!!</div>');
+        }
       },
       success: function(){
         clearField(form);
@@ -216,7 +206,7 @@
             ajaxFrom(that, form);
           }
         }
-        else{
+        else {
           e.preventDefault();
         }
       });
@@ -276,8 +266,7 @@
   };
 
   $(function() {
-    $('[data-' + pluginName + ']')[pluginName]({
-    });
+    $('[data-' + pluginName + ']')[pluginName]({});
   });
 
 }(jQuery, window));
