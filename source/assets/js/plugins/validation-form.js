@@ -3,12 +3,40 @@
  *  @description description
  *  @version 1.0
  *  @options
- *    option
+ *    alertError: 'alert-error',
+      groupInput: 'group-validation',
+      loadAjax: true,
+      rules: {
+        required: requiredVL,
+        group: groupVL,
+        email: emailVL,
+        phone: phoneVL,
+        number: numberVL,
+        min: minVL,
+        max: maxVL,
+        maxlength: maxlengthVL,
+        minlength: minlengthVL,
+        match: matchVL
+      },
+
+      msg: {
+        required: 'Please input value',
+        group: 'Please checked input',
+        email: 'Please input email',
+        phone: 'Please input phone',
+        number: 'Please input number',
+        min: 'Min incorrect',
+        max: 'Max incorrect',
+        maxlength: 'Max length incorrect',
+        minlength: 'Min length incorrect',
+        match: 'Not match'
+      },
+      onBeforeSendAjax: function(form, options){},
+      onSuccessSendAjax : function(form, options){}
  *  @events
- *    event
+ *    submit.validationForm
  *  @methods
  *    init
- *    publicMethod
  *    destroy
  */
 ;(function($, window, undefined) {
@@ -211,10 +239,13 @@
         }
       });
     },
-    publicMethod: function(params) {
-
-    },
     destroy: function() {
+      var that = this,
+          element = that.element;
+
+      element.off('submit.validationForm');
+      element.find('.alert-error').remove();
+
       $.removeData(this.element[0], pluginName);
     }
   };
