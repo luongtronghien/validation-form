@@ -88,7 +88,6 @@
     }
 
     return $.trim(input.val());
-    // return (input.attr('type') === 'checkbox') ? input.is(':checked') : (input.is('select')) ? input.find('option:selected').length : $.trim(input.val());
   };
 
   var groupVL = function(group){
@@ -244,7 +243,7 @@
           element = that.element;
 
       element.off('submit.validationForm');
-      element.find('.alert-error').remove();
+      element.find('.' + that.options.alertError).remove();
 
       $.removeData(this.element[0], pluginName);
     }
